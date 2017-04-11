@@ -20,7 +20,9 @@ function renderWarning(text) {
  * @returns {string} - description or excerpt if needed
  */
 function shortenText(text, num) {
-  const out = text.split(' ');
-  if (num < out.length) return `${out.slice(0, num).join(' ')}...`;
-  else return text;
+  if (text) {
+    const out = text.split(' ');
+    if (num < out.length) return `${out.slice(0, num).join(' ')}...`;
+    else return text;
+  }
 }
