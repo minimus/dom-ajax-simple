@@ -55,11 +55,11 @@ class Navigation {
           for (const ns of data.sources) {
             cats.push(ns.category);
           }
-          for (const val of [...cats.reduce((a, c) => {
+          for (const category of [...cats.reduce((a, c) => {
             if (-1 === a.indexOf(c)) a.push(c);
             return a;
           }, [])]) {
-            out.push({category: val, sources: [...data.sources.filter(c => (c.category === val))]});
+            out.push({category, sources: [...data.sources.filter(c => (c.category === category))]});
           }
         }
         else if (data.status === 'error')
