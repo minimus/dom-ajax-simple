@@ -96,7 +96,7 @@ class Navigation {
     this.setSourcesEventListeners(sources);
   }
 
-  renderSortOrder(source = this.currentSource, data = null) {
+  renderSortOrder(source, data) {
     if (!data) data = this.staticData.find(e => e.category === this.staticData[0].category).sources;
     const sorts = data.find(e => e.id === source).sortBysAvailable;
     let out = '<label for="sortOrder">Sort by</label><select id="sortOrder">';
@@ -139,7 +139,7 @@ class Navigation {
         });
       }
     }
-    this.renderSortOrder();
+    this.renderSortOrder(this.currentSource, sources);
   }
 
   setOrderEventListener() {
