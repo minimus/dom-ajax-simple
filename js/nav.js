@@ -55,19 +55,19 @@ class Navigation {
         this.staticData = out;
       })
       .catch(e => {
-        let again = '';
-        if (this.attempts > 1) {
-          again = 'Trying to fetch data again. Next attempt will be done after 10 sec.';
-        }
-        else if (this.attempts === 0) {
-          again = "Sorry! Can't resolve this problem...";
-        }
-        this.newsHolder.innerHTML = renderWarning(['Sorry! The error has occurred on the News Server...', e, again]);
-        if (this.attempts > 0) setTimeout(() => {
-          this.attempts--;
-          this.prepareNavData();
-        }, 10000);
+        this.errorHandler(e);
       });
+  }
+
+  errorHandler(e) {
+    let again = (this.attempts > 0) ?
+      'Trying to fetch data again. Next attempt will be done after 10 sec.' :
+      "Sorry! Can't resolve this problem... Try again later...";
+    this.newsHolder.innerHTML = renderWarning(['Sorry! The error has occurred on the News Server...', e, again]);
+    if (this.attempts > 0) setTimeout(() => {
+      this.attempts--;
+      this.prepareNavData();
+    }, 10000);
   }
 
   initNavigationControls() {

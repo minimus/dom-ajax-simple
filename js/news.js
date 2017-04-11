@@ -20,19 +20,19 @@ class News {
       }
       else throw new Error('Oops! Something went wrong!');
     }).catch(e => {
-      let again = '';
-      if (this.attempts > 1) {
-        again = 'Trying to fetch data again. Next attempt will be done after 10 sec.';
-      }
-      else if (this.attempts === 0) {
-        again = "Sorry! Can't resolve this problem...";
-      }
-      this.newsHolder.innerHTML = renderWarning(['Sorry! The error has occurred on the News Server...', e, again]);
-      if (this.attempts > 0) setTimeout(() => {
-        this.attempts--;
-        this.getNews(source, order);
-      }, 10000);
+      this.errorHandler(e, source, order);
     });
+  }
+
+  errorHandler(e, source, order) {
+    let again = (this.attempts > 0) ?
+      'Trying to fetch data again. Next attempt will be done after 10 sec.' :
+      "Sorry! Can't resolve this problem... Try again later...";
+    this.newsHolder.innerHTML = renderWarning(['Sorry! The error has occurred on the News Server...', e, again]);
+    if (this.attempts > 0) setTimeout(() => {
+      this.attempts--;
+      this.getNews(source, order);
+    }, 10000);
   }
 
   renderNews(data) {
