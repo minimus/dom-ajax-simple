@@ -2,12 +2,21 @@
  * Created by Константин on 11.04.2017.
  */
 class News {
+  /**
+   * Creates news handler
+   * @param {DataManager} dm - pointer to DataManager instance
+   */
   constructor(dm) {
     this.dm = dm;
     this.newsHolder = document.querySelector('#news-data');
     this.attempts = 5;
   }
 
+  /**
+   * Outputting news data
+   * @param {string} source - news source
+   * @param {string} order  - sort order
+   */
   getNews(source, order) {
     this.dm.getNewsData(source, order)
       .then(data => {
@@ -24,6 +33,12 @@ class News {
     });
   }
 
+  /**
+   * Error handler. Generates error messages and trying to retry fetching data defined number of times.
+   * @param {string} e      - reason
+   * @param {string} source - news source
+   * @param {string} order  - sort order
+   */
   errorHandler(e, source, order) {
     let again = (this.attempts > 0) ?
       'Trying to fetch data again. Next attempt will be done after 10 sec.' :
@@ -35,6 +50,10 @@ class News {
     }, 10000);
   }
 
+  /**
+   * Outputs news
+   * @param {object} data
+   */
   renderNews(data) {
     let out = '';
     for (const article of data.articles) {
@@ -43,6 +62,11 @@ class News {
     this.newsHolder.innerHTML = out;
   }
 
+  /**
+   * Generates news item tags
+   * @param {object} itemData - item data from source
+   * @returns {string}        - tags
+   */
   renderNewsItem(itemData) {
     let
       out = '',

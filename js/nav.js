@@ -16,10 +16,18 @@ class Navigation {
     this.attempts = 5;
   }
 
+  /**
+   * Getter of navigation static data
+   * @returns {Array}
+   */
   get staticData() {
     return this._staticData;
   }
 
+  /**
+   * Setter of navigation static data (called once)
+   * @param {Array} data
+   */
   set staticData(data) {
     this._staticData = data;
     this.currentCategory = data[0].category;
@@ -28,10 +36,16 @@ class Navigation {
     this.initNavigationControls();
   }
 
+  /**
+   * Initialise navigation controls
+   */
   init() {
     this.prepareNavData();
   }
 
+  /**
+   * Gets async data and prepares it to use.
+   */
   prepareNavData() {
     this.dm.getNavData()
       .then(data => {
@@ -59,6 +73,10 @@ class Navigation {
       });
   }
 
+  /**
+   * Error handler. Generates error messages and trying to retry fetching data defined number of times.
+   * @param {string} e - reason
+   */
   errorHandler(e) {
     let again = (this.attempts > 0) ?
       'Trying to fetch data again. Next attempt will be done after 10 sec.' :
@@ -70,10 +88,17 @@ class Navigation {
     }, 10000);
   }
 
+  /**
+   * Creates navigation controls with initial data
+   */
   initNavigationControls() {
     this.renderCategories(this.staticData);
   }
 
+  /**
+   * Creates Categories Control tags
+   * @param {Array} data - array of navigation data (this.staticData)
+   */
   renderCategories(data) {
     let out = '';
     for (const val of data) {
@@ -84,6 +109,11 @@ class Navigation {
     this.setNavEventListeners(data);
   }
 
+  /**
+   * Creates Sources Control tags
+   * @param {string} category - current category slug
+   * @param {Array} data      - array of navigation data (this.staticData)
+   */
   renderSources(category = this.currentCategory, data = this.staticData) {
     const sources = data.find(e => e.category === category).sources;
     let out = '';
@@ -96,8 +126,12 @@ class Navigation {
     this.setSourcesEventListeners(sources);
   }
 
+  /**
+   * Creates Sort Order Control tags
+   * @param {string} source - current news source slug
+   * @param {Array} data    - array of news sources related to a current category
+   */
   renderSortOrder(source, data) {
-    if (!data) data = this.staticData.find(e => e.category === this.staticData[0].category).sources;
     const sorts = data.find(e => e.id === source).sortBysAvailable;
     let out = '<label for="sortOrder">Sort by</label><select id="sortOrder">';
     if (-1 === sorts.indexOf(this.currentOrder)) this.currentOrder = sorts[0];
@@ -110,6 +144,10 @@ class Navigation {
     this.setOrderEventListener();
   }
 
+  /**
+   * Adds event listeners to the created category control items
+   * @param {Array} data - array of navigation data (this.staticData)
+   */
   setNavEventListeners(data) {
     const naviList = document.querySelectorAll('nav ul li');
     if (naviList.length) {
@@ -126,6 +164,10 @@ class Navigation {
     this.renderSources();
   }
 
+  /**
+   * Adds event listeners to the created sources control items
+   * @param {Array} sources - array of news sources related to a current category
+   */
   setSourcesEventListeners(sources) {
     const srcList = document.querySelectorAll('#sidebar ul li');
     if (srcList.length) {
@@ -142,6 +184,9 @@ class Navigation {
     this.renderSortOrder(this.currentSource, sources);
   }
 
+  /**
+   * Adds event listener to the created sort orders control
+   */
   setOrderEventListener() {
     const sortOrder = this.orderHolder.querySelector('#sortOrder');
     sortOrder.addEventListener('change', () => {
