@@ -41,9 +41,12 @@ class News {
    */
   errorHandler(e, source, order) {
     let again = (this.attempts > 0) ?
-      'Trying to fetch data again. Next attempt will be done after 10 sec.' :
-      "Sorry! Can't resolve this problem... Try again later...";
-    this.newsHolder.innerHTML = renderWarning(['Sorry! The error has occurred on the News Server...', e, again]);
+      [
+        'Trying to fetch data again. Next attempt will be done after 10 sec.',
+        `Attempts left: ${this.attempts}`
+      ] :
+      ["Sorry! Can't resolve this problem... Try again later..."];
+    this.newsHolder.innerHTML = renderWarning(['Sorry! The error has occurred on the News Server...', e, ...again]);
     if (this.attempts > 0) setTimeout(() => {
       this.attempts--;
       this.getNews(source, order);

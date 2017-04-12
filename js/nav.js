@@ -119,8 +119,13 @@ class Navigation {
     let out = '';
     this.currentSource = sources[0].id;
     for (const val of sources) {
-      let selected = (val.id === this.currentSource) ? 'class="selected"' : '';
-      out += `<li id="${val.id}" ${selected} title="${val.description}"><span><img src="${val.urlsToLogos.small}"></span><p>${val.name}</p></li>`;
+      let
+        selected = (val.id === this.currentSource) ? 'class="selected"' : '',
+        logo = `https://icons.better-idea.org/icon?url=${val.url}&size=120`;
+      out += `<li id="${val.id}" ${selected} title="${val.description}">`;
+      out += `<span><img src="${logo}"></span>`;
+      out += `<p>${val.name}</p>`;
+      out += '</li>';
     }
     this.srcHolder.innerHTML = `<ul>${out}</ul>`;
     this.setSourcesEventListeners(sources);
