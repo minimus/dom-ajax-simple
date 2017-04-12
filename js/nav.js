@@ -121,7 +121,7 @@ class Navigation {
     for (const val of sources) {
       let
         selected = (val.id === this.currentSource) ? 'class="selected"' : '',
-        logo = `https://icons.better-idea.org/icon?url=${val.url}&size=120`;
+        logo = `https://icons.better-idea.org/icon?url=${val.url}&size=64..64..128`;
       out += `<li id="${val.id}" ${selected} title="${val.description}">`;
       out += `<span><img src="${logo}"></span>`;
       out += `<p>${val.name}</p>`;
